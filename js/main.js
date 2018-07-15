@@ -60,7 +60,7 @@ function updateBoardView() {
 }
 
 function generateOneNumber() {
-    if (nospace(board)) { return false }
+    if (noSpace(board)) { return false }
 
     // 随机生成一个位置
     let randomX = parseInt(Math.floor(Math.random() * 4)) // 0, 1, 2, 3
@@ -85,31 +85,19 @@ function generateOneNumber() {
 $(document).keydown((event) => {
     switch (event.keyCode) {
         case 37: // left
-            if (moveLeft(board)) {
-                generateOneNumber()
-                isGameOver()
-            }
+            if (moveLeft(board)) { triggerNextActionAfterMoveDone() }
             break
         case 38: // up
-            if (moveUp(board)) {
-                generateOneNumber()
-                isGameOver()
-            }
+            if (moveUp(board)) { triggerNextActionAfterMoveDone() }
             break
         case 39: // right
-            if (moveRight(board)) {
-                generateOneNumber()
-                isGameOver()
-            }
+            if (moveRight(board)) { triggerNextActionAfterMoveDone() }
             break
         case 40: // down
-            if (moveDown(board)) {
-                generateOneNumber()
-                isGameOver()
-            }
+            if (moveDown(board)) { triggerNextActionAfterMoveDone() }
             break
         default:
-            break;
+            break
     }
 })
 
@@ -144,7 +132,7 @@ function moveLeft(board) {
     // 刷新视图：从 M 到 V，将数据变更反映到视图上
     // 待移动动画 showMoveAnimation 完成后，再刷新视图
     // 否则动画尚未完成就被视图刷新动作覆盖掉了
-    setTimeout(updateBoardView, 200)
+    updateAfterMoveDone()
     return true
 }
 
@@ -175,7 +163,7 @@ function moveUp(board) {
         }
     }
 
-    setTimeout(updateBoardView, 200)
+    updateAfterMoveDone()
     return true
 }
 
@@ -184,7 +172,8 @@ function moveRight(board) {
     
     // moveRight
     for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 3; j++) {
+        // for (let j = 0; j < 3; j++) {
+        for (let j = 2; j >= 0; j--) {
             if (board[i][j] !== 0) {
                 for (let k = 3; k > j; k--) {
                     if (board[i][k] === 0 && noBlockHorizontal(i, j, k, board)) {
@@ -206,7 +195,7 @@ function moveRight(board) {
         }
     }
 
-    setTimeout(updateBoardView, 200)
+    updateAfterMoveDone()
     return true
 }
 
@@ -214,7 +203,8 @@ function moveDown(board) {
     if (!canMoveDown(board)) { return false }
     
     // moveDown
-    for (let i = 0; i < 3; i++) {
+    // for (let i = 0; i < 3; i++) {
+    for (let i = 2; i >= 0; i--) {
         for (let j = 0; j < 4; j++) {
             if (board[i][j] !== 0) {
                 for (let k = 3; k > i; k--) {
@@ -237,10 +227,25 @@ function moveDown(board) {
         }
     }
 
-    setTimeout(updateBoardView, 200)
+    updateAfterMoveDone()
     return true
 }
 
 function isGameOver() {
-    
+    if (noSpace(board) && noMove(board)) {
+        gameOver()
+    }
+}
+
+function gameOver() {
+    alert('Game Over!')
+}
+
+function updateAfterMoveDone() {
+    setTimeout(updateBoardView, 200)
+}
+
+function triggerNextActionAfterMoveDone() {
+    setTimeout(generateOneNumber, 210)
+    setTimeout(isGameOver, 300)
 }

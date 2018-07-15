@@ -30,12 +30,22 @@ function getNumberColor(number) {
     return '#ffffff'
 }
 
-function nospace(board) {
+function noSpace(board) {
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             if (board[i][j] === 0) { return false }
         }
     }
+    return true
+}
+
+function noMove(board) {
+    if (canMoveLeft(board) ||
+        canMoveUp(board) ||
+        canMoveRight(board) ||
+        canMoveDown(board)) {
+            return false
+        }
     return true
 }
 
@@ -74,7 +84,8 @@ function canMoveUp(board) {
 function canMoveRight(board) {
     for (let i = 0; i < 4; i++) {
         // j 小于 3，因为第 3 列（列数从 0 开始）肯定不能再往右移了
-        for (let j = 0; j < 3; j++) {
+        // for (let j = 0; j < 3; j++) {
+        for (let j = 2; j >= 0; j--) {
             if (board[i][j] !== 0) {
                 // 如果右侧格子为空或与右侧格子数字相等（可合并），即可右移
                 if (board[i][j + 1] === 0 || board[i][j + 1] === board[i][j]) {
@@ -88,7 +99,8 @@ function canMoveRight(board) {
 
 function canMoveDown(board) {
     // i 小于 3，因为第 3 行（行数从 0 开始）肯定不能再往下移了
-    for (let i = 0; i < 3; i++) {
+    // for (let i = 0; i < 3; i++) {
+    for (let i = 2; i >= 0; i--) {
         for (let j = 0; j < 4; j++) {
             if (board[i][j] !== 0) {
                 // 如果下侧格子为空或与下侧格子数字相等（可合并），即可下移
