@@ -19,3 +19,7 @@ function showMoveAnimation(fromX, fromY, toX,toY) {
     }, 200)
     
 }
+
+function updateScore(board) {
+    $('#score').text(score)
+}
