@@ -85,25 +85,25 @@ function generateOneNumber() {
 $(document).keydown((event) => {
     switch (event.keyCode) {
         case 37: // left
-            if (moveLeft()) {
+            if (moveLeft(board)) {
                 generateOneNumber()
                 isGameOver()
             }
             break
         case 38: // up
-            if (moveUp()) {
+            if (moveUp(board)) {
                 generateOneNumber()
                 isGameOver()
             }
             break
         case 39: // right
-            if (moveRight()) {
+            if (moveRight(board)) {
                 generateOneNumber()
                 isGameOver()
             }
             break
         case 40: // down
-            if (moveDown()) {
+            if (moveDown(board)) {
                 generateOneNumber()
                 isGameOver()
             }
@@ -121,15 +121,19 @@ function moveLeft(board) {
     for (let i = 0; i < 4; i++) {
         for (let j = 1; j < 4; j++) {
             if (board[i][j] !== 0) {
-                for (var k = 0; k < j; k++) {
+                for (let k = 0; k < j; k++) {
                     if (board[i][k] === 0 && noBlockHorizontal(i, k, j, board)) {
                         // move
-
+                        showMoveAnimation(i, j, i, k)
+                        board[i][k] = board[i][j]
+                        board[i][j] = 0
                         continue
                     } else if (board[i][k] === board[i][j] && noBlockHorizontal(i, k, j, board)) {
                         //move
+                        showMoveAnimation(i, j, i, k)
                         //add
-
+                        board[i][k] += board[i][j]
+                        board[i][j] = 0
                         continue
                     }
                 }
@@ -137,5 +141,106 @@ function moveLeft(board) {
         }
     }
 
+    // 刷新视图：从 M 到 V，将数据变更反映到视图上
+    // 待移动动画 showMoveAnimation 完成后，再刷新视图
+    // 否则动画尚未完成就被视图刷新动作覆盖掉了
+    setTimeout(updateBoardView, 200)
     return true
+}
+
+function moveUp(board) {
+    if (!canMoveUp(board)) { return false }
+    
+    // moveUp
+    for (let i = 1; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (board[i][j] !== 0) {
+                for (let k = 0; k < i; k++) {
+                    if (board[k][j] === 0 && noBlockVertical(j, k, i, board)) {
+                        // move
+                        showMoveAnimation(i, j, k, j)
+                        board[k][j] = board[i][j]
+                        board[i][j] = 0
+                        continue
+                    } else if (board[k][j] === board[i][j] && noBlockVertical(j, k, i, board)) {
+                        //move
+                        showMoveAnimation(i, j, k, j)
+                        //add
+                        board[k][j] += board[i][j]
+                        board[i][j] = 0
+                        continue
+                    }
+                }
+            }
+        }
+    }
+
+    setTimeout(updateBoardView, 200)
+    return true
+}
+
+function moveRight(board) {
+    if (!canMoveRight(board)) { return false }
+    
+    // moveRight
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (board[i][j] !== 0) {
+                for (let k = 3; k > j; k--) {
+                    if (board[i][k] === 0 && noBlockHorizontal(i, j, k, board)) {
+                        // move
+                        showMoveAnimation(i, j, i, k)
+                        board[i][k] = board[i][j]
+                        board[i][j] = 0
+                        continue
+                    } else if (board[i][k] === board[i][j] && noBlockHorizontal(i, j, k, board)) {
+                        //move
+                        showMoveAnimation(i, j, i, k)
+                        //add
+                        board[i][k] += board[i][j]
+                        board[i][j] = 0
+                        continue
+                    }
+                }
+            }
+        }
+    }
+
+    setTimeout(updateBoardView, 200)
+    return true
+}
+
+function moveDown(board) {
+    if (!canMoveDown(board)) { return false }
+    
+    // moveDown
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (board[i][j] !== 0) {
+                for (let k = 3; k > i; k--) {
+                    if (board[k][j] === 0 && noBlockVertical(j, i, k, board)) {
+                        // move
+                        showMoveAnimation(i, j, k, j)
+                        board[k][j] = board[i][j]
+                        board[i][j] = 0
+                        continue
+                    } else if (board[k][j] === board[i][j] && noBlockVertical(j, i, k, board)) {
+                        //move
+                        showMoveAnimation(i, j, k, j)
+                        //add
+                        board[k][j] += board[i][j]
+                        board[i][j] = 0
+                        continue
+                    }
+                }
+            }
+        }
+    }
+
+    setTimeout(updateBoardView, 200)
+    return true
+}
+
+function isGameOver() {
+    
 }

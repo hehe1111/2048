@@ -10,3 +10,12 @@ function showNumberWithAnimation(i, j, number) {
         left: getPositionLeft(j)
     }, 100)
 }
+
+function showMoveAnimation(fromX, fromY, toX,toY) {
+    let numberCell = $(`#number-cell-${fromX}-${fromY}`)
+    numberCell.animate({
+        top: getPositionTop(toX),
+        left: getPositionLeft(toY)
+    }, 200)
+    
+}

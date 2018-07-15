@@ -55,3 +55,62 @@ function canMoveLeft(board) {
     }
     return false
 }
+
+function canMoveUp(board) {
+    // i 从 1 开始，因为第 0 行肯定不能再往上移了
+    for (let i = 1; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (board[i][j] !== 0) {
+                // 如果上侧格子为空或与上侧格子数字相等（可合并），即可上移
+                if (board[i - 1][j] === 0 || board[i - 1][j] === board[i][j]) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+function canMoveRight(board) {
+    for (let i = 0; i < 4; i++) {
+        // j 小于 3，因为第 3 列（列数从 0 开始）肯定不能再往右移了
+        for (let j = 0; j < 3; j++) {
+            if (board[i][j] !== 0) {
+                // 如果右侧格子为空或与右侧格子数字相等（可合并），即可右移
+                if (board[i][j + 1] === 0 || board[i][j + 1] === board[i][j]) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+function canMoveDown(board) {
+    // i 小于 3，因为第 3 行（行数从 0 开始）肯定不能再往下移了
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (board[i][j] !== 0) {
+                // 如果下侧格子为空或与下侧格子数字相等（可合并），即可下移
+                if (board[i + 1][j] === 0 || board[i + 1][j] === board[i][j]) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+function noBlockHorizontal(row, column1, column2, board) {
+    for (let i = column1 + 1; i < column2; i++) {
+        if (board[row][i] !== 0) { return false }
+    }
+    return true
+}
+
+function noBlockVertical(column, row1, row2, board) {
+    for (let i = row1 + 1; i < row2; i++) {
+        if (board[i][column] !== 0) { return false }
+    }
+    return true
+}
