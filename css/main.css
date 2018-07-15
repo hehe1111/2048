@@ -1,11 +1,14 @@
 * { padding: 0; margin: 0; }
 *, *::before, *::after { box-sizing: border-box; }
 a { text-decoration: none; }
+body {
+    font-family: Arial;
+}
+
 header {
     width: 500px;
     margin: 20px auto 0 auto;
     text-align: center;
-    font-family: Arial;
 }
 
 header > h1 {
@@ -47,5 +50,14 @@ header > p {
     height: 100px;
     border-radius: 6px;
     background-color: #ccc0b3;
+    position: absolute;
+}
+
+.number-cell {
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 100px;
+    text-align: center;
     position: absolute;
 }
