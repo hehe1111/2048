@@ -112,3 +112,30 @@ $(document).keydown((event) => {
             break;
     }
 })
+
+function moveLeft(board) {
+    if (!canMoveLeft(board)) { return false }
+    
+    // moveLeft
+    // 移动具体的元素：哪个元素可移动？可以移动到具体哪个位置？
+    for (let i = 0; i < 4; i++) {
+        for (let j = 1; j < 4; j++) {
+            if (board[i][j] !== 0) {
+                for (var k = 0; k < j; k++) {
+                    if (board[i][k] === 0 && noBlockHorizontal(i, k, j, board)) {
+                        // move
+
+                        continue
+                    } else if (board[i][k] === board[i][j] && noBlockHorizontal(i, k, j, board)) {
+                        //move
+                        //add
+
+                        continue
+                    }
+                }
+            }
+        }
+    }
+
+    return true
+}

@@ -38,3 +38,20 @@ function nospace(board) {
     }
     return true
 }
+
+// 仅判断是否存在可以移动的元素
+function canMoveLeft(board) {
+    for (let i = 0; i < 4; i++) {
+        // j 从 1 开始，因为第 0 列肯定不能再往左移了
+        for (let j = 1; j < 4; j++) {
+            // 如果当前格子存在数字
+            if (board[i][j] !== 0) {
+                // 如果左侧格子为空或与左侧格子数字相等（可合并），即可左移
+                if (board[i][j - 1] === 0 || board[i][j - 1] === board[i][j]) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
