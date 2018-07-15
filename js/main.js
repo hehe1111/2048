@@ -73,10 +73,25 @@ function generateOneNumber() {
     let randomX = parseInt(Math.floor(Math.random() * 4)) // 0, 1, 2, 3
     let randomY = parseInt(Math.floor(Math.random() * 4)) // 0, 1, 2, 3
     // 如果位置上已经有数字，就重新生成随机位置
-    while (true) {
+    let times = 0
+    while (times < 20) {
         if (board[randomX][randomY] === 0) { break }
         randomX = parseInt(Math.floor(Math.random() * 4))
         randomY = parseInt(Math.floor(Math.random() * 4))
+
+        times += 1
+    }
+
+    // 如果计算机试了 20 次之后，仍没有得到可用的随机位置，就人工生成位置
+    if (times === 20) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (board[i][j] === 0) {
+                    randomX = i
+                    randomY = j
+                }                
+            }
+        }
     }
 
     // 随机生成一个数字：2 或 4，生成概率各为 50%
