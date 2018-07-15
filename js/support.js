@@ -21,7 +21,7 @@ function getNumberBackgroundColor(number) {
         case 2048: return '#0099cc'; break;
         case 4096: return '#aa66cc'; break;
         case 8192: return '#9933cc'; break;
-        default: return '#000000'; break;
+        default: return '#000000'
     }
 }
 

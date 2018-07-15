@@ -10,10 +10,12 @@ function newGame() {
     init()
 
     // 随机在两个格子中生成数字
-
+    generateOneNumber()
+    generateOneNumber()
 }
 
 function init() {
+    // 初始化所有格子
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             let gridCell = $(`#grid-cell-${i}-${j}`)
@@ -21,24 +23,24 @@ function init() {
             gridCell.css('left', getPositionLeft(j))
         }
     }
-}
 
-for (let i = 0; i < 4; i++) {
-    board[i] = []
-    for (let j = 0; j < 4; j++) {
-        board[i][j] = 0
+    // 初始化二维数组 board
+    for (let i = 0; i < 4; i++) {
+        board[i] = []
+        for (let j = 0; j < 4; j++) {
+            board[i][j] = 0
+        }
     }
-}
 
-updateBoardView()
+    updateBoardView()
+}
 
 function updateBoardView() {
     $('.number-cell').remove()
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             $('.grid-container').append(`<div class="number-cell" id="number-cell-${i}-${j}"></div>`)
-            let numberCell = $('.number-cell-${i}-${j}')
-
+            let numberCell = $(`#number-cell-${i}-${j}`)
             if (board[i][j] === 0) {
                 numberCell.css('width', '0px')
                 numberCell.css('height', '0px')
