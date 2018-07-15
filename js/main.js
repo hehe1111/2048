@@ -81,3 +81,34 @@ function generateOneNumber() {
     
     return true
 }
+
+$(document).keydown((event) => {
+    switch (event.keyCode) {
+        case 37: // left
+            if (moveLeft()) {
+                generateOneNumber()
+                isGameOver()
+            }
+            break
+        case 38: // up
+            if (moveUp()) {
+                generateOneNumber()
+                isGameOver()
+            }
+            break
+        case 39: // right
+            if (moveRight()) {
+                generateOneNumber()
+                isGameOver()
+            }
+            break
+        case 40: // down
+            if (moveDown()) {
+                generateOneNumber()
+                isGameOver()
+            }
+            break
+        default:
+            break;
+    }
+})
