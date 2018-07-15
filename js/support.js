@@ -29,3 +29,12 @@ function getNumberColor(number) {
     if (number <= 4) { return '#776e65' }
     return '#ffffff'
 }
+
+function nospace(board) {
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (board[i][j] === 0) { return false }
+        }
+    }
+    return true
+}

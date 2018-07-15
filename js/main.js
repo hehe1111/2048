@@ -56,3 +56,26 @@ function updateBoardView() {
         }
     }
 }
+
+function generateOneNumber() {
+    if (nospace(board)) { return false }
+
+    // 随机生成一个位置
+    let randomX = parseInt(Math.floor(Math.random() * 4)) // 0, 1, 2, 3
+    let randomY = parseInt(Math.floor(Math.random() * 4)) // 0, 1, 2, 3
+    // 如果位置上已经有数字，就重新生成随机位置
+    while (true) {
+        if (board[randomX][randomY] === 0) { break }
+        randomX = parseInt(Math.floor(Math.random() * 4))
+        randomY = parseInt(Math.floor(Math.random() * 4))
+    }
+
+    // 随机生成一个数字：2 或 4，生成概率各为 50%
+    let randomNumber = Math.random() < 0.5 ? 2 : 4
+
+    // 在生成的随机位置上显示生成的随机数字
+    board[randomX][randomY] = randomNumber
+    showNumberWithAnimation(randomX, randomY, randomNumber)
+    
+    return true
+}
