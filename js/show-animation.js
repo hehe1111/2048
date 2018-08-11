@@ -4,8 +4,8 @@ function showNumberWithAnimation(i, j, number) {
     numberCell.css('color', getNumberColor(number))
     numberCell.text(number)
     numberCell.animate({
-        width: '100px',
-        height: '100px',
+        width: cellSlideLength,
+        height: cellSlideLength,
         top: getPositionTop(i),
         left: getPositionLeft(j)
     }, 100)

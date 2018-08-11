@@ -1,10 +1,34 @@
 let board = []
 let score = 0
 let hasConflicted = []
+let startX = 0
+let startY = 0
+let endX = 0
+let endY = 0
+let deltaX = 0
+let deltaY = 0
 
 $(document).ready(function () {
+    prepareForMobile()
     newGame()
 })
+
+function prepareForMobile() {
+    if (documentWidth > 500) {
+        gridContainerWidth = 500
+        cellSlideLength = 100
+        cellSpace = 20
+    }
+
+    $('.grid-container').css('width', gridContainerWidth)
+    $('.grid-container').css('height', gridContainerWidth)
+    $('.grid-container').css('padding', cellSpace)
+    $('.grid-container').css('border-radius', '6px')
+
+    $('.grid-cell').css('width', cellSlideLength)
+    $('.grid-cell').css('height', cellSlideLength)
+    $('.grid-cell').css('border-radius', '6px')
+}
 
 function newGame() {
     // 初始化棋盘格
@@ -48,11 +72,11 @@ function updateBoardView() {
             if (board[i][j] === 0) {
                 numberCell.css('width', '0px')
                 numberCell.css('height', '0px')
-                numberCell.css('top', getPositionTop(i) + 50)
-                numberCell.css('left', getPositionLeft(j) + 50)
+                numberCell.css('top', getPositionTop(i) + cellSlideLength / 2)
+                numberCell.css('left', getPositionLeft(j) + cellSlideLength / 2)
             } else {
-                numberCell.css('width', '100px')
-                numberCell.css('height', '100px')
+                numberCell.css('width', cellSlideLength)
+                numberCell.css('height', cellSlideLength)
                 numberCell.css('top', getPositionTop(i))
                 numberCell.css('left', getPositionLeft(j))
                 numberCell.css('background-color', getNumberBackgroundColor(board[i][j]))
@@ -64,6 +88,8 @@ function updateBoardView() {
             hasConflicted[i][j] = false
         }
     }
+    $('.number-cell').css('line-height', cellSlideLength + 'px')
+    $('.number-cell').css('font-size', 0.6 * cellSlideLength + 'px')
 }
 
 function generateOneNumber() {
@@ -104,23 +130,75 @@ function generateOneNumber() {
     return true
 }
 
-$(document).keydown((event) => {
+document.addEventListener('keydown', (event) => {
     switch (event.keyCode) {
         case 37: // left
+            event.preventDefault() // 阻止移动滚动条
             if (moveLeft(board)) { triggerNextActionAfterMoveDone() }
             break
         case 38: // up
+            event.preventDefault()
             if (moveUp(board)) { triggerNextActionAfterMoveDone() }
             break
         case 39: // right
+            event.preventDefault()
             if (moveRight(board)) { triggerNextActionAfterMoveDone() }
             break
         case 40: // down
+            event.preventDefault()
             if (moveDown(board)) { triggerNextActionAfterMoveDone() }
             break
         default:
             break
     }
+})
+
+document.addEventListener('touchstart', (event) => {
+    startX = event.touches[0].pageX
+    startY = event.touches[0].pageY
+})
+
+document.addEventListener('touchend', (event) => {
+    endX = event.changedTouches[0].pageX
+    endY = event.changedTouches[0].pageY
+
+    deltaX = endX - startX
+    deltaY = endY - startY
+
+    if (Math.abs(deltaX) < 0.1 * documentWidth && Math.abs(deltaY) < 0.1 * documentWidth) { return }
+
+    if (Math.abs(deltaX) >= Math.abs(deltaY)) {
+        // x 轴方向的滑动
+        if (deltaX > 0) {
+            // 右移
+            if (moveRight(board)) {
+                triggerNextActionAfterMoveDone()
+            }
+        } else {
+            // 左移
+            if (moveLeft(board)) {
+                triggerNextActionAfterMoveDone()
+            }
+        }
+
+    } else {
+        // y 轴方向的滑动
+        if (deltaY > 0) {
+            // 下移
+            if (moveDown(board)) {
+                triggerNextActionAfterMoveDone()
+            }
+        } else {
+            // 上移
+            if (moveUp(board)) {
+                triggerNextActionAfterMoveDone()
+            }
+        }
+    }
+})
+
+document.querySelector('#new-game-button').addEventListener('click', function () {
+    newGame()
 })
 
 function moveLeft(board) {
@@ -284,7 +362,13 @@ function isGameOver() {
 }
 
 function gameOver() {
-    alert('Game Over!')
+    let div = document.createElement('div')
+    div.classList.add('game-over-alert', 'active')
+    div.textContent = 'Game Over'
+    document.querySelector('body').appendChild(div)
+    setTimeout(() => {
+        document.querySelector('.game-over-alert').remove()
+    }, 2000)
 }
 
 function updateAfterMoveDone() {
@@ -293,5 +377,5 @@ function updateAfterMoveDone() {
 
 function triggerNextActionAfterMoveDone() {
     setTimeout(generateOneNumber, 210)
-    setTimeout(isGameOver, 300)
+    setTimeout(isGameOver, 500)
 }

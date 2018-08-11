@@ -1,9 +1,14 @@
+var documentWidth = document.documentElement.clientWidth
+var gridContainerWidth = 0.92 * documentWidth
+var cellSlideLength = 0.18 * documentWidth
+var cellSpace = 0.04 * documentWidth
+
 function getPositionTop(i) {
-    return 20 + i * 120
+    return cellSpace + i * (cellSlideLength + cellSpace)
 }
 
 function getPositionLeft(j) {
-    return 20 + j * 120
+    return cellSpace + j * (cellSlideLength + cellSpace)
 }
 
 function getNumberBackgroundColor(number) {
