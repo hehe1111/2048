@@ -89,7 +89,7 @@ function updateBoardView() {
         }
     }
     $('.number-cell').css('line-height', cellSlideLength + 'px')
-    $('.number-cell').css('font-size', 0.6 * cellSlideLength + 'px')
+    $('.number-cell').css('font-size', 0.4 * cellSlideLength + 'px')
 }
 
 function generateOneNumber() {
