@@ -362,8 +362,9 @@ function isGameOver() {
 }
 
 function gameOver() {
+    if (document.querySelector('.game-over-alert')) { return } // 防止触发多个提示
     let div = document.createElement('div')
-    div.classList.add('game-over-alert', 'active')
+    div.classList.add('game-over-alert')
     div.textContent = 'Game Over'
     document.querySelector('body').appendChild(div)
     setTimeout(() => {
